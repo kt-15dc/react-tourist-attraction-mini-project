@@ -20,11 +20,13 @@ export const ArticleCard = ({ article }) => {
           </div>
   
           {/* Sub Images */}
-          <div className="flex gap-2 mt-2">
-            {article.subImages.map((img, index) => (
-              <img key={index} src={img} className="w-16 h-16 object-cover rounded-md" />
-            ))}
-          </div>
+          {article.subImages && article.subImages.length > 0 && (
+            <div className="flex gap-2 mt-2">
+              {article.subImages.map((img, index) => (
+                <img key={index} src={img} className="w-16 h-16 object-cover rounded-md" />
+              ))}
+            </div>
+          )}
         </div>
   
         {/* External Link Icon */}
@@ -38,4 +40,3 @@ export const ArticleCard = ({ article }) => {
       </div>
     );
   };
-  

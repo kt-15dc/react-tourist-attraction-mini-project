@@ -1,6 +1,26 @@
-export const HomeHeader = () => {
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-    return (
+export const HomeHeader = ({ setPlaceArray }) => {
+  const [textChange, setTextChange] = useState("");
+
+  const handleChange = (e) => {
+    setTextChange(e.target.value);
+  };
+
+  const fetchData = async (text) => {
+    const response = await axios.get(`http://localhost:4001/trips?keywords=${text}`);
+    const placeArray = response.data.data;
+    console.log(placeArray);
+    setPlaceArray(placeArray); // Pass data to parent
+  };
+
+  useEffect(() => {
+    fetchData(textChange);
+  }, [textChange]);
+
+  return (
+    <>
       <div className="relative h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: `url('https://source.unsplash.com/1600x900/?travel,landscape')` }}>
         <div className="bg-gray-500 bg-opacity-50 w-full h-full absolute top-0 left-0 z-0"></div>
   
@@ -13,7 +33,8 @@ export const HomeHeader = () => {
               type="text"
               id="search"
               name="search"
-
+              value={textChange}
+              onChange={handleChange}
               placeholder="พิมพ์ชื่อสถานที่ เช่น เชียงใหม่, พัทยา..."
               className="flex-1 px-4 py-2 rounded-md text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
@@ -26,6 +47,6 @@ export const HomeHeader = () => {
           </form>
         </div>
       </div>
-    );
-  };
-  
+    </>
+  );
+};
